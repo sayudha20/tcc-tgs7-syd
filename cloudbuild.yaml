@@ -13,34 +13,30 @@ steps:
   # Build frontend
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/notes-frontend', './frontend']
+    id: build-frontend
   
   # Push frontend image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/notes-frontend']
+    waitFor: ['build-frontend']
   
-  # Deploy to Cloud Run (backend)
+  # Deploy backend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['run', 'deploy', 'notes-backend', 
            '--image', 'gcr.io/$PROJECT_ID/notes-backend',
            '--platform', 'managed',
            '--region', 'us-central1',
-           '--allow-unauthenticated',
-           '--set-env-vars', 'DB_HOST=your-cloud-sql-ip',
-           '--set-env-vars', 'DB_USER=root',
-           '--set-env-vars', 'DB_PASSWORD=secret',
-           '--set-env-vars', 'DB_NAME=notes_app',
-           '--set-env-vars', 'JWT_SECRET=your_jwt_secret']
+           '--allow-unauthenticated']
   
-  # Deploy to Cloud Run (frontend)
+  # Deploy frontend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: ['run', 'deploy', 'notes-frontend', 
            '--image', 'gcr.io/$PROJECT_ID/notes-frontend',
            '--platform', 'managed',
            '--region', 'us-central1',
-           '--allow-unauthenticated',
-           '--set-env-vars', 'REACT_APP_API_URL=https://notes-backend-url.a.run.app/api']
+           '--allow-unauthenticated']
 
 images:
   - 'gcr.io/$PROJECT_ID/notes-backend'
