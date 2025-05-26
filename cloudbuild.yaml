@@ -31,7 +31,7 @@ steps:
           --member=allUsers \
           --role=roles/run.invoker
   
-  # Deploy backend to Cloud Run
+    # Deploy backend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args: 
@@ -43,13 +43,13 @@ steps:
       - '--region=us-central1'
       - '--port=8080'
       - '--allow-unauthenticated'
-      - '--timeout=300s'
-      - '--max-instances=1'
+      - '--timeout=300s'  # Tambah timeout jadi 5 menit
       - '--set-env-vars=DB_HOST=your-cloud-sql-ip'
       - '--set-env-vars=DB_USER=root'
       - '--set-env-vars=DB_PASSWORD=secret'
       - '--set-env-vars=DB_NAME=notes_app'
       - '--set-env-vars=JWT_SECRET=your_jwt_secret'
+      - '--set-env-vars=NODE_ENV=production'
   
   # Deploy frontend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
