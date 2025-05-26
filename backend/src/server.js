@@ -3,6 +3,11 @@ const pool = require('./config/db');
 
 const PORT = process.env.PORT || 8080;
 
+//Health check endpoint
+app.get('/_health', (req, res) => {
+  res.status(200).json({ status: 'healthy' });
+});
+
 // Test DB connection
 pool.query('SELECT 1')
   .then(() => {
