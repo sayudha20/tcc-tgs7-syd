@@ -31,30 +31,30 @@ steps:
           --member=allUsers \
           --role=roles/run.invoker
   
-    # Deploy backend to Cloud Run
-    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-      entrypoint: gcloud
-      args:
-        - 'run'
-        - 'deploy'
-        - 'notes-backend'
-        - '--image=gcr.io/$PROJECT_ID/notes-backend'
-        - '--platform=managed'
-        - '--region=us-central1'
-        - '--port=8080'
-        - '--allow-unauthenticated'
-        - '--timeout=600'  # Timeout 10 menit
-        - '--set-env-vars=PORT=8080'
-        - '--set-env-vars=NODE_ENV=production'
-        - '--set-env-vars=DB_HOST=your-cloud-sql-ip'
-        - '--set-env-vars=DB_USER=root'
-        - '--set-env-vars=DB_PASSWORD=secret'
-        - '--set-env-vars=DB_NAME=notes_app'
-        - '--set-env-vars=JWT_SECRET=your_jwt_secret'
-        - '--cpu=1'
-        - '--memory=1Gi'
-        - '--min-instances=1'
-        - '--max-instances=1'
+  # Deploy backend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'notes-backend'
+      - '--image=gcr.io/$PROJECT_ID/notes-backend'
+      - '--platform=managed'
+      - '--region=us-central1'
+      - '--port=8080'
+      - '--allow-unauthenticated'
+      - '--timeout=600'
+      - '--set-env-vars=PORT=8080'
+      - '--set-env-vars=NODE_ENV=production'
+      - '--set-env-vars=DB_HOST=your-cloud-sql-ip'
+      - '--set-env-vars=DB_USER=root'
+      - '--set-env-vars=DB_PASSWORD=secret'
+      - '--set-env-vars=DB_NAME=notes_app'
+      - '--set-env-vars=JWT_SECRET=your_jwt_secret'
+      - '--cpu=1'
+      - '--memory=1Gi'
+      - '--min-instances=1'
+      - '--max-instances=1'
   
   # Deploy frontend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -67,7 +67,7 @@ steps:
       - '--platform=managed'
       - '--region=us-central1'
       - '--allow-unauthenticated'
-      - '--timeout=1000s'
+      - '--timeout=300s'
       - '--max-instances=1'
 
 images:
