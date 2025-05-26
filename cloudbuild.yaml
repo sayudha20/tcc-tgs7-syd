@@ -43,7 +43,7 @@ steps:
       - '--region=us-central1'
       - '--port=8080'
       - '--allow-unauthenticated'
-      - '--timeout=300s'  # Tambah timeout jadi 5 menit
+      - '--timeout=1000s'  # Tambah timeout jadi 5 menit
       - '--set-env-vars=DB_HOST=your-cloud-sql-ip'
       - '--set-env-vars=DB_USER=root'
       - '--set-env-vars=DB_PASSWORD=secret'
@@ -62,7 +62,7 @@ steps:
       - '--platform=managed'
       - '--region=us-central1'
       - '--allow-unauthenticated'
-      - '--timeout=300s'
+      - '--timeout=1000s'
       - '--max-instances=1'
 
 images:
